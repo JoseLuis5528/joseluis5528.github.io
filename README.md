@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+
 <html lang="es">
 <head>
   <meta charset="UTF-8">
@@ -50,54 +50,51 @@
       </tr>
     </thead>
     <tbody>
-      <!-- Aquí se insertan los registros -->
+      <!-- Se agregarán los registros aquí -->
     </tbody>
   </table>
 </div>
 
-<!-- Script -->
+<!-- Script JavaScript -->
 <script>
-  const formulario = document.getElementById('form-registro');
-  const tabla = document.querySelector('#tabla-registros tbody');
-  const claveLocal = 'registrosActividades';
+  document.addEventListener('DOMContentLoaded', () => {
+    const formulario = document.getElementById('form-registro');
+    const tabla = document.querySelector('#tabla-registros tbody');
+    const claveLocal = 'registrosActividades';
 
-  // Cargar registros guardados al iniciar
-  window.onload = () => {
+    // Cargar registros guardados al iniciar
     const registros = JSON.parse(localStorage.getItem(claveLocal)) || [];
     registros.forEach(agregarFila);
-  };
 
-  // Evento al enviar el formulario
-  formulario.addEventListener('submit', function(e) {
-    e.preventDefault();
+    // Evento al enviar formulario
+    formulario.addEventListener('submit', e => {
+      e.preventDefault();
 
-    const registro = {
-      nombre: document.getElementById('nombre').value,
-      comentario: document.getElementById('comentario').value,
-      tiempo: document.getElementById('tiempo').value,
-      fecha: document.getElementById('fecha').value
-    };
+      const nuevo = {
+        nombre: document.getElementById('nombre').value,
+        comentario: document.getElementById('comentario').value,
+        tiempo: document.getElementById('tiempo').value,
+        fecha: document.getElementById('fecha').value
+      };
 
-    // Guardar en localStorage
-    const registros = JSON.parse(localStorage.getItem(claveLocal)) || [];
-    registros.push(registro);
-    localStorage.setItem(claveLocal, JSON.stringify(registros));
+      registros.push(nuevo);
+      localStorage.setItem(claveLocal, JSON.stringify(registros));
+      agregarFila(nuevo);
+      formulario.reset();
+    });
 
-    agregarFila(registro);
-    formulario.reset();
+    // Insertar una fila en la tabla
+    function agregarFila(data) {
+      const fila = document.createElement('tr');
+      fila.innerHTML = `
+        <td>${data.nombre}</td>
+        <td>${data.comentario}</td>
+        <td>${data.tiempo}</td>
+        <td>${data.fecha}</td>
+      `;
+      tabla.appendChild(fila);
+    }
   });
-
-  // Función para agregar fila a la tabla
-  function agregarFila(registro) {
-    const fila = document.createElement('tr');
-    fila.innerHTML = `
-      <td>${registro.nombre}</td>
-      <td>${registro.comentario}</td>
-      <td>${registro.tiempo}</td>
-      <td>${registro.fecha}</td>
-    `;
-    tabla.appendChild(fila);
-  }
 </script>
 
 </body>
