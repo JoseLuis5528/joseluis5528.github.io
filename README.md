@@ -137,6 +137,37 @@
       <canvas id="paretoChart"></canvas>
     </div>
   </div>
+  <script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-analytics.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyD6m97z4Z0HDzVIS5ojAoVfmesqCUxy5KU",
+    authDomain: "action-tracker-3ccd8.firebaseapp.com",
+    projectId: "action-tracker-3ccd8",
+    storageBucket: "action-tracker-3ccd8.firebasestorage.app",
+    messagingSenderId: "820818816895",
+    appId: "1:820818816895:web:d0f7565d2c3cb5d257344a",
+    measurementId: "G-6KB5BTJZK3"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+  
+  db.ref("actividades").on("value", snapshot => {
+  actividades = [];
+  snapshot.forEach(child => {
+    actividades.push(child.val());
+  });
+  actualizarTabla();
+});
+</script>
 
   <!-- Scripts -->
   <script>
